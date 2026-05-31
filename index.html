@@ -13,40 +13,54 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:#f0f2f7;color:
 .app{display:grid;grid-template-columns:300px 1fr;height:100vh}
 
 /* SIDEBAR */
-.sidebar{background:#1a1d27;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.sidebar{background:#1e2640;display:flex;flex-direction:column;overflow:hidden;position:relative}
 .sb-scroll{flex:1;overflow-y:auto;scrollbar-width:none}
 .sb-scroll::-webkit-scrollbar{display:none}
 .sb-top{padding:28px 22px 16px;flex-shrink:0}
 .sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
 .sb-logo-icon{width:36px;height:36px;background:#3d7fff;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px}
 .sb-logo-name{font-size:15px;font-weight:600;color:#fff}
-.sb-logo-mes{font-size:11px;color:#4a5270;font-family:'DM Mono',monospace;margin-top:1px}
-.sb-saldo-label{font-size:10px;font-weight:500;color:#4a5270;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px}
-.sb-saldo-val{font-size:32px;font-weight:600;color:#fff;letter-spacing:-1.5px;font-family:'DM Mono',monospace;line-height:1}
-.sb-divider{height:0.5px;background:#ffffff0f;margin:16px 22px}
+.sb-logo-mes{font-size:12px;color:#8fa3c8;font-family:'DM Mono',monospace;margin-top:1px}
+.sb-saldo-label{font-size:12px;font-weight:600;color:#8fa3c8;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px}
+.sb-saldo-val{font-size:38px;font-weight:600;color:#fff;letter-spacing:-1.5px;font-family:'DM Mono',monospace;line-height:1}
+.sb-divider{height:0.5px;background:#ffffff20;margin:18px 22px}
 .sb-metrics{padding:0 22px;display:flex;flex-direction:column;gap:3px}
 .sb-metric{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;transition:background .15s}
 .sb-metric:hover{background:#ffffff06}
 .sb-metric-left{display:flex;align-items:center;gap:9px}
-.sb-metric-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
-.ic-renda{background:#3d7fff18;color:#3d7fff}
-.ic-pago{background:#22c55e18;color:#22c55e}
-.ic-pendente{background:#f4714018;color:#f47140}
-.ic-sobra{background:#a855f718;color:#a855f7}
-.sb-metric-label{font-size:12px;color:#8892a4}
-.sb-metric-val{font-size:13px;font-weight:500;font-family:'DM Mono',monospace;color:#fff}
+.sb-metric-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.ic-renda{background:#3d7fff28;color:#6fa3ff}
+.ic-pago{background:#22c55e28;color:#4ade80}
+.ic-pendente{background:#f4714028;color:#fb8c6a}
+.ic-sobra{background:#a855f728;color:#c084fc}
+.sb-metric-label{font-size:13px;color:#a0aec0}
+.sb-metric-val{font-size:14px;font-weight:600;font-family:'DM Mono',monospace;color:#fff}
 .sb-metric-val.danger{color:#f47140}
 .sb-metric-val.success{color:#22c55e}
 .sb-metric-val.info{color:#3d7fff}
 .sb-metric-val.purple{color:#a855f7}
 .sb-progress{padding:0 22px;margin-top:2px}
 .sb-prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
-.sb-prog-label{font-size:11px;color:#4a5270}
-.sb-prog-pct{font-size:11px;font-weight:500;color:#3d7fff;font-family:'DM Mono',monospace}
+.sb-prog-label{font-size:12px;color:#8fa3c8}
+.sb-prog-pct{font-size:13px;font-weight:600;color:#6fa3ff;font-family:'DM Mono',monospace}
 .sb-prog-track{background:#ffffff0a;border-radius:99px;height:5px;overflow:hidden}
 .sb-prog-fill{height:100%;border-radius:99px;background:#3d7fff;transition:width .5s cubic-bezier(.4,0,.2,1)}
 .sb-btn{margin:10px 22px 0;background:#ffffff08;border:0.5px solid #ffffff12;border-radius:11px;padding:11px 14px;color:#8892a4;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:8px;width:calc(100% - 44px);font-family:'DM Sans',sans-serif;transition:all .2s}
 .sb-btn:hover{background:#ffffff14;color:#fff}
+/* BOLSA DE VALORES */
+.sb-bolsa{margin:0 22px;background:#ffffff0d;border:0.5px solid #ffffff20;border-radius:13px;padding:14px 16px}
+.sb-bolsa-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sb-bolsa-title{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#8fa3c8;text-transform:uppercase;letter-spacing:1px}
+.sb-bolsa-title i{font-size:16px;color:#4ade80}
+.sb-bolsa-edit{background:transparent;border:none;color:#4a5270;cursor:pointer;font-size:14px;padding:3px;border-radius:5px;display:flex;transition:color .15s}
+.sb-bolsa-edit:hover{color:#8fa3c8}
+.sb-bolsa-val{font-size:26px;font-weight:600;font-family:'DM Mono',monospace;color:#4ade80;line-height:1;margin-bottom:4px}
+.sb-bolsa-sub{font-size:11px;color:#4a5270}
+.sb-bolsa-input-wrap{display:none;margin-top:10px;gap:6px}
+.sb-bolsa-input-wrap.open{display:flex}
+.sb-bolsa-input{flex:1;background:#ffffff10;border:0.5px solid #ffffff25;border-radius:8px;padding:7px 10px;font-size:14px;color:#fff;font-family:'DM Mono',monospace;outline:none}
+.sb-bolsa-input:focus{border-color:#4ade80}
+.sb-bolsa-save{background:#4ade80;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;color:#14532d;cursor:pointer;font-family:'DM Sans',sans-serif}
 .sb-footer{padding:12px 22px 24px;flex-shrink:0}
 
 /* MÊS TABS na sidebar */
@@ -121,6 +135,24 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:#f0f2f7;color:
 .empty{text-align:center;padding:60px 20px;color:#9aa1b4}
 .empty i{font-size:38px;margin-bottom:10px;display:block;opacity:.3}
 .empty p{font-size:13px}
+
+.cat-summary{border-radius:14px;padding:16px 20px;margin-bottom:14px;display:none}
+.cat-summary.show{display:block}
+.cat-sum-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.cat-sum-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.cat-sum-title{font-size:16px;font-weight:600;color:#1a1d27}
+.cat-sum-sub{font-size:12px;color:#6b7280;margin-top:2px}
+.cat-sum-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cat-sum-metric{background:#fff;border-radius:10px;border:0.5px solid #e2e5ef;padding:11px 14px}
+.cat-sum-metric-label{font-size:10px;font-weight:500;color:#9aa1b4;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.cat-sum-metric-val{font-size:15px;font-weight:600;font-family:"DM Mono",monospace;color:#1a1d27}
+.cat-sum-metric-val.green{color:#16a34a}
+.cat-sum-metric-val.red{color:#dc2626}
+.cat-sum-metric-val.blue{color:#1d4ed8}
+.cat-sum-bar-wrap{margin-top:12px}
+.cat-sum-bar-label{display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-bottom:5px}
+.cat-sum-bar-track{background:#e2e5ef;border-radius:99px;height:6px;overflow:hidden}
+.cat-sum-bar-fill{height:100%;border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
 
 /* MODALS */
 .overlay{display:none;position:fixed;inset:0;background:#1a1d2770;z-index:200;align-items:center;justify-content:center;padding:20px}
@@ -267,6 +299,23 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:#f0f2f7;color:
 
     <div class="sb-divider"></div>
 
+
+    <!-- BOLSA DE VALORES -->
+    <div class="sb-bolsa">
+      <div class="sb-bolsa-header">
+        <div class="sb-bolsa-title"><i class="ti ti-chart-candle" aria-hidden="true"></i> Bolsa de Valores</div>
+        <button class="sb-bolsa-edit" onclick="toggleBolsaEdit()" aria-label="Editar saldo em bolsa"><i class="ti ti-edit" aria-hidden="true"></i></button>
+      </div>
+      <div class="sb-bolsa-val" id="bolsa-val">R$ 0,00</div>
+      <div class="sb-bolsa-sub" id="bolsa-sub">patrimônio investido</div>
+      <div class="sb-bolsa-input-wrap" id="bolsa-input-wrap">
+        <input class="sb-bolsa-input" type="number" id="bolsa-input" placeholder="0,00" min="0" step="0.01">
+        <button class="sb-bolsa-save" onclick="saveBolsa()">Salvar</button>
+      </div>
+    </div>
+
+    <div class="sb-divider"></div>
+
     <div style="padding:0 22px;display:flex;flex-direction:column;gap:6px;padding-bottom:8px">
       <button class="sb-btn" onclick="openRendaModal()">
         <i class="ti ti-adjustments-horizontal" style="font-size:15px" aria-hidden="true"></i> Gerenciar rendas
@@ -295,6 +344,7 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:#f0f2f7;color:
   <div class="filter-row" id="filter-row"></div>
   <div class="list-wrap" id="list-wrap">
     <div class="empty" id="empty" style="display:none">
+    <div class="cat-summary" id="cat-summary"></div>
       <i class="ti ti-inbox" aria-hidden="true"></i>
       <p>Nenhuma conta neste mês</p>
     </div>
@@ -428,6 +478,7 @@ let meses    = JSON.parse(localStorage.getItem('cf3_meses')||'null') || null;
 let mesSel   = localStorage.getItem('cf3_mesSel') || null;
 let nextId   = parseInt(localStorage.getItem('cf3_nextId')||'1');
 let filtro   = 'todas';
+let saldoBolsa = parseFloat(localStorage.getItem('cf3_bolsa')||'0');
 let editId   = null;
 let tipoSel  = 'unica';
 let tmpRendas= [];
@@ -582,6 +633,51 @@ function render(){
     b.textContent=k==='todas'?'Todas':catsData[k].label;
     b.onclick=()=>{filtro=k;render()};fr.appendChild(b);
   });
+
+  /* bolsa de valores */
+  const bolsaEl=document.getElementById('bolsa-val');
+  const bolsaSubEl=document.getElementById('bolsa-sub');
+  if(bolsaEl){
+    bolsaEl.textContent=fv(saldoBolsa);
+    const patrimonioTotal=saldoBolsa+tRenda();
+    bolsaSubEl.textContent='patrimônio investido';
+  }
+
+  /* resumo de categoria */
+  const sumEl=document.getElementById('cat-summary');
+  if(filtro==='todas'){
+    sumEl.className='cat-summary';sumEl.innerHTML='';
+  } else {
+    const cs=catStyle(filtro);
+    const catContas=contas.filter(c=>c.cat===filtro);
+    const catTotal=catContas.reduce((s,c)=>s+c.valor,0);
+    const catPago=catContas.filter(c=>c.pago).reduce((s,c)=>s+c.valor,0);
+    const catPend=catContas.filter(c=>!c.pago).reduce((s,c)=>s+c.valor,0);
+    const tGeral=contas.reduce((s,c)=>s+c.valor,0);
+    const particPct=tGeral>0?Math.round((catTotal/tGeral)*100):0;
+    const pagoPct=catTotal>0?Math.round((catPago/catTotal)*100):0;
+    sumEl.className='cat-summary show';
+    sumEl.style.background=cs.bg;
+    sumEl.style.border='0.5px solid '+cs.ic+'30';
+    sumEl.innerHTML=`
+      <div class="cat-sum-top">
+        <div class="cat-sum-icon" style="background:#fff;color:${cs.ic}"><i class="ti ${cs.icon}" aria-hidden="true"></i></div>
+        <div>
+          <div class="cat-sum-title">${cs.label}</div>
+          <div class="cat-sum-sub">${catContas.length} conta${catContas.length!==1?'s':''} · ${particPct}% do total do mês</div>
+        </div>
+      </div>
+      <div class="cat-sum-grid">
+        <div class="cat-sum-metric"><div class="cat-sum-metric-label">Total</div><div class="cat-sum-metric-val blue">${fv(catTotal)}</div></div>
+        <div class="cat-sum-metric"><div class="cat-sum-metric-label">Pago</div><div class="cat-sum-metric-val green">${fv(catPago)}</div></div>
+        <div class="cat-sum-metric"><div class="cat-sum-metric-label">Pendente</div><div class="cat-sum-metric-val red">${fv(catPend)}</div></div>
+        <div class="cat-sum-metric"><div class="cat-sum-metric-label">Contas pagas</div><div class="cat-sum-metric-val">${catContas.filter(c=>c.pago).length}/${catContas.length}</div></div>
+      </div>
+      <div class="cat-sum-bar-wrap">
+        <div class="cat-sum-bar-label"><span>Progresso de pagamento</span><span>${pagoPct}%</span></div>
+        <div class="cat-sum-bar-track"><div class="cat-sum-bar-fill" style="width:${pagoPct}%;background:${cs.ic}"></div></div>
+      </div>`;
+  }
 
   /* lista contas */
   const q=(document.getElementById('search-input')||{value:''}).value.toLowerCase();
@@ -852,6 +948,21 @@ function saveCats(){
   catsData=JSON.parse(JSON.stringify(tmpCats));
   if(filtro!=='todas'&&!catsData[filtro])filtro='todas';
   saveAll();closeOv('ov-cat');render();
+}
+
+
+/* ── BOLSA ── */
+function toggleBolsaEdit(){
+  const wrap=document.getElementById('bolsa-input-wrap');
+  const inp=document.getElementById('bolsa-input');
+  if(wrap.classList.contains('open')){wrap.classList.remove('open')}
+  else{inp.value=saldoBolsa||'';wrap.classList.add('open');inp.focus()}
+}
+function saveBolsa(){
+  saldoBolsa=parseFloat(document.getElementById('bolsa-input').value)||0;
+  localStorage.setItem('cf3_bolsa',String(saldoBolsa));
+  document.getElementById('bolsa-input-wrap').classList.remove('open');
+  render();
 }
 
 /* ── CLOSE ── */
