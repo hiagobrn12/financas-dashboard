@@ -223,6 +223,22 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:#f0f2f7;color:
   .filter-row{padding:10px 14px 0}
   .list-wrap{padding:12px 14px 22px}
 }
+
+/* BARRA PROGRESSO CATEGORIA */
+.cat-bar-wrap{padding:12px 26px;border-bottom:0.5px solid #e2e5ef;display:none;background:#fff}
+.cat-bar-wrap.show{display:block}
+.cat-bar-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cat-bar-left{display:flex;align-items:center;gap:10px}
+.cat-bar-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.cat-bar-title{font-size:14px;font-weight:600;color:#1a1d27}
+.cat-bar-sub{font-size:11px;color:#6b7280;margin-top:1px}
+.cat-bar-total{font-size:20px;font-weight:600;font-family:'DM Mono',monospace;color:#1a1d27}
+.cat-bar-track{background:#f0f2f7;border-radius:99px;height:6px;overflow:hidden;margin-bottom:7px}
+.cat-bar-fill{height:100%;border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.cat-bar-stats{display:flex;justify-content:space-between;align-items:center}
+.cat-bar-pago{font-size:12px;font-weight:500;color:#16a34a;display:flex;align-items:center;gap:4px}
+.cat-bar-pend{font-size:12px;font-weight:500;color:#dc2626;display:flex;align-items:center;gap:4px}
+.cat-bar-pct{font-size:12px;font-weight:500;color:#6b7280}
 </style>
 </head>
 <body>
@@ -342,9 +358,9 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:#f0f2f7;color:
     </div>
   </div>
   <div class="filter-row" id="filter-row"></div>
+  <div class="cat-bar-wrap" id="cat-bar-wrap"></div>
   <div class="list-wrap" id="list-wrap">
     <div class="empty" id="empty" style="display:none">
-    <div class="cat-summary" id="cat-summary"></div>
       <i class="ti ti-inbox" aria-hidden="true"></i>
       <p>Nenhuma conta neste mês</p>
     </div>
@@ -643,10 +659,10 @@ function render(){
     bolsaSubEl.textContent='patrimônio investido';
   }
 
-  /* resumo de categoria */
-  const sumEl=document.getElementById('cat-summary');
+  /* barra de progresso categoria */
+  const barWrap=document.getElementById('cat-bar-wrap');
   if(filtro==='todas'){
-    sumEl.className='cat-summary';sumEl.innerHTML='';
+    barWrap.className='cat-bar-wrap';barWrap.innerHTML='';
   } else {
     const cs=catStyle(filtro);
     const catContas=contas.filter(c=>c.cat===filtro);
@@ -656,26 +672,23 @@ function render(){
     const tGeral=contas.reduce((s,c)=>s+c.valor,0);
     const particPct=tGeral>0?Math.round((catTotal/tGeral)*100):0;
     const pagoPct=catTotal>0?Math.round((catPago/catTotal)*100):0;
-    sumEl.className='cat-summary show';
-    sumEl.style.background=cs.bg;
-    sumEl.style.border='0.5px solid '+cs.ic+'30';
-    sumEl.innerHTML=`
-      <div class="cat-sum-top">
-        <div class="cat-sum-icon" style="background:#fff;color:${cs.ic}"><i class="ti ${cs.icon}" aria-hidden="true"></i></div>
-        <div>
-          <div class="cat-sum-title">${cs.label}</div>
-          <div class="cat-sum-sub">${catContas.length} conta${catContas.length!==1?'s':''} · ${particPct}% do total do mês</div>
+    barWrap.className='cat-bar-wrap show';
+    barWrap.innerHTML=`
+      <div class="cat-bar-top">
+        <div class="cat-bar-left">
+          <div class="cat-bar-icon" style="background:${cs.bg};color:${cs.ic}"><i class="ti ${cs.icon}" aria-hidden="true"></i></div>
+          <div>
+            <div class="cat-bar-title">${cs.label} · ${catContas.length} conta${catContas.length!==1?'s':''}</div>
+            <div class="cat-bar-sub">${particPct}% do total do mês</div>
+          </div>
         </div>
+        <div class="cat-bar-total">${fv(catTotal)}</div>
       </div>
-      <div class="cat-sum-grid">
-        <div class="cat-sum-metric"><div class="cat-sum-metric-label">Total</div><div class="cat-sum-metric-val blue">${fv(catTotal)}</div></div>
-        <div class="cat-sum-metric"><div class="cat-sum-metric-label">Pago</div><div class="cat-sum-metric-val green">${fv(catPago)}</div></div>
-        <div class="cat-sum-metric"><div class="cat-sum-metric-label">Pendente</div><div class="cat-sum-metric-val red">${fv(catPend)}</div></div>
-        <div class="cat-sum-metric"><div class="cat-sum-metric-label">Contas pagas</div><div class="cat-sum-metric-val">${catContas.filter(c=>c.pago).length}/${catContas.length}</div></div>
-      </div>
-      <div class="cat-sum-bar-wrap">
-        <div class="cat-sum-bar-label"><span>Progresso de pagamento</span><span>${pagoPct}%</span></div>
-        <div class="cat-sum-bar-track"><div class="cat-sum-bar-fill" style="width:${pagoPct}%;background:${cs.ic}"></div></div>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${pagoPct}%;background:${cs.ic}"></div></div>
+      <div class="cat-bar-stats">
+        <span class="cat-bar-pago"><i class="ti ti-circle-check" style="font-size:13px" aria-hidden="true"></i> Pago ${fv(catPago)}</span>
+        <span class="cat-bar-pct">${pagoPct}% pago</span>
+        <span class="cat-bar-pend"><i class="ti ti-clock" style="font-size:13px" aria-hidden="true"></i> Pendente ${fv(catPend)}</span>
       </div>`;
   }
 
