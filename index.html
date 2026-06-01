@@ -252,6 +252,7 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:#f0f2f7;color:
         <div class="sb-logo-icon"><i class="ti ti-wallet" aria-hidden="true"></i></div>
         <div>
           <div class="sb-logo-name">Finanças</div>
+          <div id="sync-status" style="display:flex;align-items:center;gap:5px;margin-top:3px"></div>
           <div class="sb-logo-mes" id="sb-mes-label"></div>
         </div>
       </div>
@@ -463,6 +464,81 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:#f0f2f7;color:
 </div>
 
 <script>
+const SUPABASE_URL = 'https://ekghxbyyboppkikraygg.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Q5L5AFKbb-YDlU1PS2m1qg_OUZiayHf';
+const TABLE = 'dados_usuario';
+const USER_ID = 'usuario_principal';
+
+async function sbRequest(method, body) {
+  const opts = {
+    method: method,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'resolution=merge-duplicates' : ''
+    }
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + TABLE, opts);
+  if (!res.ok) throw new Error(await res.text());
+  return res.status === 204 ? null : res.json();
+}
+
+async function loadFromSupabase() {
+  try {
+    const rows = await sbRequest('GET');
+    const row = (rows || []).find(function(r) { return r.id === USER_ID; });
+    if (row && row.dados) {
+      const d = row.dados;
+      if (d.meses)    meses    = d.meses;
+      if (d.rendas)   rendas   = d.rendas;
+      if (d.catsData) catsData = d.catsData;
+      if (d.mesSel)   mesSel   = d.mesSel;
+      if (d.nextId)   nextId   = d.nextId;
+      if (d.saldoBolsa !== undefined) saldoBolsa = d.saldoBolsa;
+      if (!mesSel || !meses.find(function(m) { return m.id === mesSel; })) mesSel = meses[0] ? meses[0].id : null;
+      showSyncStatus('ok');
+    }
+  } catch(e) {
+    console.error('Supabase load error:', e);
+    showSyncStatus('erro');
+  }
+}
+
+let syncTimer = null;
+async function saveToSupabase() {
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(async function() {
+    showSyncStatus('salvando');
+    try {
+      await sbRequest('POST', {
+        id: USER_ID,
+        dados: { meses: meses, rendas: rendas, catsData: catsData, mesSel: mesSel, nextId: nextId, saldoBolsa: saldoBolsa },
+        updated_at: new Date().toISOString()
+      });
+      showSyncStatus('ok');
+    } catch(e) {
+      console.error('Supabase save error:', e);
+      showSyncStatus('erro');
+    }
+  }, 800);
+}
+
+function showSyncStatus(status) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  const map = {
+    ok:       { icon: 'ti-cloud-check',  color: '#22c55e', label: 'Salvo na nuvem' },
+    salvando: { icon: 'ti-cloud-upload', color: '#f59e0b', label: 'Salvando...' },
+    erro:     { icon: 'ti-cloud-off',    color: '#f87171', label: 'Erro ao salvar' }
+  };
+  const s = map[status] || map.ok;
+  el.innerHTML = '<i class="ti ' + s.icon + '" style="font-size:14px;color:' + s.color + '" aria-hidden="true"></i><span style="font-size:11px;color:' + s.color + '">' + s.label + '</span>';
+}
+</script>
+
+<script>
 const ICON_LIST=['ti-credit-card','ti-refresh','ti-home','ti-trending-up','ti-car','ti-heart','ti-shopping-cart','ti-device-mobile','ti-school','ti-stethoscope','ti-plane','ti-tool','ti-shirt','ti-device-tv','ti-building','ti-music','ti-coffee','ti-salad','ti-gift','ti-cash','ti-receipt','ti-baby-carriage','ti-dumbbell','ti-book','ti-phone','ti-wifi','ti-sun','ti-droplet','ti-bolt'];
 const COLOR_LIST=[
   {bg:'#eff6ff',ic:'#3b82f6',badge:'#1d4ed8'},
@@ -564,6 +640,7 @@ function saveAll(){
   localStorage.setItem('cf3_meses',JSON.stringify(meses));
   localStorage.setItem('cf3_mesSel',mesSel||'');
   localStorage.setItem('cf3_nextId',String(nextId));
+  saveToSupabase();
 }
 
 /* ── HELPERS ── */
@@ -975,6 +1052,7 @@ function saveBolsa(){
   saldoBolsa=parseFloat(document.getElementById('bolsa-input').value)||0;
   localStorage.setItem('cf3_bolsa',String(saldoBolsa));
   document.getElementById('bolsa-input-wrap').classList.remove('open');
+  saveToSupabase();
   render();
 }
 
@@ -984,7 +1062,7 @@ function closeOv(id){document.getElementById(id).classList.remove('open');editId
   document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeOv(id)});
 });
 
-render();
+loadFromSupabase().then(function() { render(); });
 </script>
 </body>
 </html>
